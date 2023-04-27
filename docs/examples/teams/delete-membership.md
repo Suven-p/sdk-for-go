@@ -2,20 +2,22 @@ package main
 
 import (
     "fmt"
+    "time"
     "github.com/appwrite/sdk-for-go"
 )
 
 func main() {
-    var client := appwrite.Client{}
+    client := appwrite.NewClient()
 
-    client.SetProject("5df5acd0d48c2") // Your project ID
-    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
+    client.SetEndpoint("https://[HOSTNAME_OR_IP]/v1") // Your API Endpoint
+    client.SetProject("") // Your project ID
+    client.SetKey("") // Your secret API key
 
     var service := appwrite.Teams{
         client: &client
     }
 
-    var response, error := service.DeleteMembership("[TEAM_ID]", "[INVITE_ID]")
+    var response, error := service.DeleteMembership("[TEAM_ID]", "[MEMBERSHIP_ID]")
 
     if error != nil {
         panic(error)
