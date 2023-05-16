@@ -5,7 +5,6 @@ import (
 	"reflect"
 )
 
-
 func parseValue(value interface{}) string {
 	if val, ok := value.(string); ok {
 		return fmt.Sprintf("\"%s\"", val)

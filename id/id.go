@@ -1,9 +1,9 @@
 package id
 
 func Custom(id string) string {
-    return id
+	return id
 }
 
 func Unique() string {
-    return "unique()"
+	return "unique()"
 }

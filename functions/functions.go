@@ -3,10 +3,10 @@ package functions
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/models"
-	"github.com/appwrite/sdk-for-go/file"
-	"strings"
 	"github.com/appwrite/sdk-for-go/client"
+	"github.com/appwrite/sdk-for-go/file"
+	"github.com/appwrite/sdk-for-go/models"
+	"strings"
 )
 
 // Functions service
@@ -20,20 +20,22 @@ func NewFunctions(clt client.Client) *Functions {
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func WithListQueries(v []interface{}) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -46,10 +48,10 @@ func WithListSearch(v string) ListOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-	
+
 // List get a list of all the project's functions. You can use the query
 // params to filter your results.
-func (srv *Functions) List(optionalSetters ...ListOption)  (*models.FunctionList, error) {
+func (srv *Functions) List(optionalSetters ...ListOption) (*models.FunctionList, error) {
 	path := "/functions"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -87,24 +89,27 @@ func (srv *Functions) List(optionalSetters ...ListOption)  (*models.FunctionList
 }
 
 type CreateOptions struct {
-	Execute []interface{}
-	Events []interface{}
-	Schedule string
-	Timeout int
-	Enabled bool
+	Execute        []interface{}
+	Events         []interface{}
+	Schedule       string
+	Timeout        int
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
-		"Execute": false,
-		"Events": false,
+		"Execute":  false,
+		"Events":   false,
 		"Schedule": false,
-		"Timeout": false,
-		"Enabled": false,
+		"Timeout":  false,
+		"Enabled":  false,
 	}
 	return &options
 }
+
 type CreateOption func(*CreateOptions)
+
 func WithCreateExecute(v []interface{}) CreateOption {
 	return func(o *CreateOptions) {
 		o.Execute = v
@@ -135,11 +140,11 @@ func WithCreateEnabled(v bool) CreateOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+
 // Create create a new function. You can pass a list of
 // [permissions](/docs/permissions) to allow different project users or team
 // with access to execute the function using the client API.
-func (srv *Functions) Create(FunctionId string, Name string, Runtime string, optionalSetters ...CreateOption)  (*models.Function, error) {
+func (srv *Functions) Create(FunctionId string, Name string, Runtime string, optionalSetters ...CreateOption) (*models.Function, error) {
 	path := "/functions"
 	options := CreateOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -190,7 +195,7 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 
 // ListRuntimes get a list of all runtimes that are currently active on your
 // instance.
-func (srv *Functions) ListRuntimes()  (*models.RuntimeList, error) {
+func (srv *Functions) ListRuntimes() (*models.RuntimeList, error) {
 	path := "/functions/runtimes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -216,9 +221,9 @@ func (srv *Functions) ListRuntimes()  (*models.RuntimeList, error) {
 	return &parsed, nil
 
 }
-	
+
 // Get get a function by its unique ID.
-func (srv *Functions) Get(FunctionId string)  (*models.Function, error) {
+func (srv *Functions) Get(FunctionId string) (*models.Function, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
@@ -248,24 +253,27 @@ func (srv *Functions) Get(FunctionId string)  (*models.Function, error) {
 }
 
 type UpdateOptions struct {
-	Execute []interface{}
-	Events []interface{}
-	Schedule string
-	Timeout int
-	Enabled bool
+	Execute        []interface{}
+	Events         []interface{}
+	Schedule       string
+	Timeout        int
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
-		"Execute": false,
-		"Events": false,
+		"Execute":  false,
+		"Events":   false,
 		"Schedule": false,
-		"Timeout": false,
-		"Enabled": false,
+		"Timeout":  false,
+		"Enabled":  false,
 	}
 	return &options
 }
+
 type UpdateOption func(*UpdateOptions)
+
 func WithUpdateExecute(v []interface{}) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Execute = v
@@ -296,9 +304,9 @@ func WithUpdateEnabled(v bool) UpdateOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // Update update function by its unique ID.
-func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption)  (*models.Function, error) {
+func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption) (*models.Function, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}")
 	options := UpdateOptions{}.New()
@@ -346,9 +354,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a function by its unique ID.
-func (srv *Functions) Delete(FunctionId string)  (*interface{}, error) {
+func (srv *Functions) Delete(FunctionId string) (*interface{}, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
@@ -378,18 +386,21 @@ func (srv *Functions) Delete(FunctionId string)  (*interface{}, error) {
 }
 
 type ListDeploymentsOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListDeploymentsOptions) New() *ListDeploymentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListDeploymentsOption func(*ListDeploymentsOptions)
+
 func WithListDeploymentsQueries(v []interface{}) ListDeploymentsOption {
 	return func(o *ListDeploymentsOptions) {
 		o.Queries = v
@@ -402,10 +413,10 @@ func WithListDeploymentsSearch(v string) ListDeploymentsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-			
+
 // ListDeployments get a list of all the project's code deployments. You can
 // use the query params to filter your results.
-func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...ListDeploymentsOption)  (*models.DeploymentList, error) {
+func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...ListDeploymentsOption) (*models.DeploymentList, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := ListDeploymentsOptions{}.New()
@@ -443,19 +454,19 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 	return &parsed, nil
 
 }
-							
+
 // CreateDeployment create a new function code deployment. Use this endpoint
 // to upload a new version of your code function. To execute your newly
 // uploaded code, you'll need to update the function's deployment to use your
 // new deployment UID.
-// 
+//
 // This endpoint accepts a tar.gz file compressed with your code. Make sure to
 // include any dependencies your code has within the compressed file. You can
 // learn more about code packaging in the [Appwrite Cloud Functions
 // tutorial](/docs/functions).
-// 
+//
 // Use the "command" param to set the entry point used to execute your code.
-func (srv *Functions) CreateDeployment(FunctionId string, Entrypoint string, Code file.InputFile, Activate bool)  (*models.Deployment, error) {
+func (srv *Functions) CreateDeployment(FunctionId string, Entrypoint string, Code file.InputFile, Activate bool) (*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/deployments")
 	params := map[string]interface{}{}
@@ -467,13 +478,12 @@ func (srv *Functions) CreateDeployment(FunctionId string, Entrypoint string, Cod
 		"content-type": "multipart/form-data",
 	}
 
-    paramName := "code"
+	paramName := "code"
 
+	uploadId := ""
 
-    uploadId := ""
-
-    resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
-    if err != nil {
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	if err != nil {
 		return nil, err
 	}
 	var parsed models.Deployment
@@ -490,9 +500,9 @@ func (srv *Functions) CreateDeployment(FunctionId string, Entrypoint string, Cod
 	}
 	return &parsed, nil
 }
-			
+
 // GetDeployment get a code deployment by its unique ID.
-func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)  (*models.Deployment, error) {
+func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string) (*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
@@ -521,11 +531,11 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)  (*m
 	return &parsed, nil
 
 }
-			
+
 // UpdateDeployment update the function code deployment ID using the unique
 // function ID. Use this endpoint to switch the code deployment that should be
 // executed by the execution endpoint.
-func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string)  (*models.Function, error) {
+func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string) (*models.Function, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
@@ -554,9 +564,9 @@ func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string)  
 	return &parsed, nil
 
 }
-			
+
 // DeleteDeployment delete a code deployment by its unique ID.
-func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)  (*interface{}, error) {
+func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string) (*interface{}, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
@@ -585,9 +595,9 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)  
 	return &parsed, nil
 
 }
-					
+
 // CreateBuild
-func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, BuildId string)  (*interface{}, error) {
+func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, BuildId string) (*interface{}, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId, "{buildId}", BuildId)
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/builds/{buildId}")
 	params := map[string]interface{}{}
@@ -619,18 +629,21 @@ func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, BuildI
 }
 
 type ListExecutionsOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListExecutionsOptions) New() *ListExecutionsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListExecutionsOption func(*ListExecutionsOptions)
+
 func WithListExecutionsQueries(v []interface{}) ListExecutionsOption {
 	return func(o *ListExecutionsOptions) {
 		o.Queries = v
@@ -643,10 +656,10 @@ func WithListExecutionsSearch(v string) ListExecutionsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-			
+
 // ListExecutions get a list of all the current user function execution logs.
 // You can use the query params to filter your results.
-func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListExecutionsOption)  (*models.ExecutionList, error) {
+func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListExecutionsOption) (*models.ExecutionList, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/executions")
 	options := ListExecutionsOptions{}.New()
@@ -686,18 +699,21 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 }
 
 type CreateExecutionOptions struct {
-	Data string
-	Async bool
+	Data           string
+	Async          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateExecutionOptions) New() *CreateExecutionOptions {
 	options.enabledSetters = map[string]bool{
-		"Data": false,
+		"Data":  false,
 		"Async": false,
 	}
 	return &options
 }
+
 type CreateExecutionOption func(*CreateExecutionOptions)
+
 func WithCreateExecutionData(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Data = v
@@ -710,12 +726,12 @@ func WithCreateExecutionAsync(v bool) CreateExecutionOption {
 		o.enabledSetters["Async"] = true
 	}
 }
-			
+
 // CreateExecution trigger a function execution. The returned object will
 // return you the current execution status. You can ping the `Get Execution`
 // endpoint to get updates on the current execution status. Once this endpoint
 // is called, your function execution process will start asynchronously.
-func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...CreateExecutionOption)  (*models.Execution, error) {
+func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...CreateExecutionOption) (*models.Execution, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/executions")
 	options := CreateExecutionOptions{}.New()
@@ -753,9 +769,9 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 	return &parsed, nil
 
 }
-			
+
 // GetExecution get a function execution log by its unique ID.
-func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)  (*models.Execution, error) {
+func (srv *Functions) GetExecution(FunctionId string, ExecutionId string) (*models.Execution, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{executionId}", ExecutionId)
 	path := r.Replace("/functions/{functionId}/executions/{executionId}")
 	params := map[string]interface{}{}
@@ -784,9 +800,9 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)  (*mod
 	return &parsed, nil
 
 }
-	
+
 // ListVariables get a list of all variables of a specific function.
-func (srv *Functions) ListVariables(FunctionId string)  (*models.VariableList, error) {
+func (srv *Functions) ListVariables(FunctionId string) (*models.VariableList, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/variables")
 	params := map[string]interface{}{}
@@ -814,10 +830,10 @@ func (srv *Functions) ListVariables(FunctionId string)  (*models.VariableList, e
 	return &parsed, nil
 
 }
-					
+
 // CreateVariable create a new function variable. These variables can be
 // accessed within function in the `env` object under the request variable.
-func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string)  (*models.Variable, error) {
+func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string) (*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/variables")
 	params := map[string]interface{}{}
@@ -847,9 +863,9 @@ func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string
 	return &parsed, nil
 
 }
-			
+
 // GetVariable get a variable by its unique ID.
-func (srv *Functions) GetVariable(FunctionId string, VariableId string)  (*models.Variable, error) {
+func (srv *Functions) GetVariable(FunctionId string, VariableId string) (*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}
@@ -880,25 +896,28 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)  (*model
 }
 
 type UpdateVariableOptions struct {
-	Value string
+	Value          string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
 	}
 	return &options
 }
+
 type UpdateVariableOption func(*UpdateVariableOptions)
+
 func WithUpdateVariableValue(v string) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Value = v
 		o.enabledSetters["Value"] = true
 	}
 }
-							
+
 // UpdateVariable update variable by its unique ID.
-func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key string, optionalSetters ...UpdateVariableOption)  (*models.Variable, error) {
+func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key string, optionalSetters ...UpdateVariableOption) (*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -935,9 +954,9 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key s
 	return &parsed, nil
 
 }
-			
+
 // DeleteVariable delete a variable by its unique ID.
-func (srv *Functions) DeleteVariable(FunctionId string, VariableId string)  (*interface{}, error) {
+func (srv *Functions) DeleteVariable(FunctionId string, VariableId string) (*interface{}, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}

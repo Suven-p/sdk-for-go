@@ -3,9 +3,9 @@ package account
 import (
 	"encoding/json"
 	"errors"
+	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"strings"
-	"github.com/appwrite/sdk-for-go/client"
 )
 
 // Account service
@@ -19,9 +19,8 @@ func NewAccount(clt client.Client) *Account {
 	}
 }
 
-
 // Get get currently logged in user data as JSON object.
-func (srv *Account) Get()  (*models.User, error) {
+func (srv *Account) Get() (*models.User, error) {
 	path := "/account"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -47,7 +46,7 @@ func (srv *Account) Get()  (*models.User, error) {
 	return &parsed, nil
 
 }
-			
+
 // UpdateEmail update currently logged in user account email address. After
 // changing user address, the user confirmation status will get reset. A new
 // confirmation email is not sent automatically however you can use the send
@@ -55,7 +54,7 @@ func (srv *Account) Get()  (*models.User, error) {
 // security measures, user password is required to complete this request.
 // This endpoint can also be used to convert an anonymous account to a normal
 // one, by passing an email address and a new password.
-func (srv *Account) UpdateEmail(Email string, Password string)  (*models.User, error) {
+func (srv *Account) UpdateEmail(Email string, Password string) (*models.User, error) {
 	path := "/account/email"
 	params := map[string]interface{}{}
 	params["email"] = Email
@@ -85,26 +84,29 @@ func (srv *Account) UpdateEmail(Email string, Password string)  (*models.User, e
 }
 
 type ListLogsOptions struct {
-	Queries []interface{}
+	Queries        []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options ListLogsOptions) New() *ListLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 	}
 	return &options
 }
+
 type ListLogsOption func(*ListLogsOptions)
+
 func WithListLogsQueries(v []interface{}) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-	
+
 // ListLogs get currently logged in user list of latest security activity
 // logs. Each log returns user IP address, location and date and time of log.
-func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)  (*models.LogList, error) {
+func (srv *Account) ListLogs(optionalSetters ...ListLogsOption) (*models.LogList, error) {
 	path := "/account/logs"
 	options := ListLogsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -137,9 +139,9 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)  (*models.LogLis
 	return &parsed, nil
 
 }
-	
+
 // UpdateName update currently logged in user account name.
-func (srv *Account) UpdateName(Name string)  (*models.User, error) {
+func (srv *Account) UpdateName(Name string) (*models.User, error) {
 	path := "/account/name"
 	params := map[string]interface{}{}
 	params["name"] = Name
@@ -168,28 +170,31 @@ func (srv *Account) UpdateName(Name string)  (*models.User, error) {
 }
 
 type UpdatePasswordOptions struct {
-	OldPassword string
+	OldPassword    string
 	enabledSetters map[string]bool
 }
+
 func (options UpdatePasswordOptions) New() *UpdatePasswordOptions {
 	options.enabledSetters = map[string]bool{
 		"OldPassword": false,
 	}
 	return &options
 }
+
 type UpdatePasswordOption func(*UpdatePasswordOptions)
+
 func WithUpdatePasswordOldPassword(v string) UpdatePasswordOption {
 	return func(o *UpdatePasswordOptions) {
 		o.OldPassword = v
 		o.enabledSetters["OldPassword"] = true
 	}
 }
-			
+
 // UpdatePassword update currently logged in user password. For validation,
 // user is required to pass in the new password, and the old password. For
 // users created with OAuth, Team Invites and Magic URL, oldPassword is
 // optional.
-func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePasswordOption)  (*models.User, error) {
+func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePasswordOption) (*models.User, error) {
 	path := "/account/password"
 	options := UpdatePasswordOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -223,13 +228,13 @@ func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePas
 	return &parsed, nil
 
 }
-			
+
 // UpdatePhone update the currently logged in user's phone number. After
 // updating the phone number, the phone verification status will be reset. A
 // confirmation SMS is not sent automatically, however you can use the [POST
 // /account/verification/phone](/docs/client/account#accountCreatePhoneVerification)
 // endpoint to send a confirmation SMS.
-func (srv *Account) UpdatePhone(Phone string, Password string)  (*models.User, error) {
+func (srv *Account) UpdatePhone(Phone string, Password string) (*models.User, error) {
 	path := "/account/phone"
 	params := map[string]interface{}{}
 	params["phone"] = Phone
@@ -259,7 +264,7 @@ func (srv *Account) UpdatePhone(Phone string, Password string)  (*models.User, e
 }
 
 // GetPrefs get currently logged in user preferences as a key-value object.
-func (srv *Account) GetPrefs()  (*models.Preferences, error) {
+func (srv *Account) GetPrefs() (*models.Preferences, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -285,11 +290,11 @@ func (srv *Account) GetPrefs()  (*models.Preferences, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdatePrefs update currently logged in user account preferences. The object
 // you pass is stored as is, and replaces any previous value. The maximum
 // allowed prefs size is 64kB and throws error if exceeded.
-func (srv *Account) UpdatePrefs(Prefs interface{})  (*models.User, error) {
+func (srv *Account) UpdatePrefs(Prefs interface{}) (*models.User, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
 	params["prefs"] = Prefs
@@ -316,7 +321,7 @@ func (srv *Account) UpdatePrefs(Prefs interface{})  (*models.User, error) {
 	return &parsed, nil
 
 }
-			
+
 // CreateRecovery sends the user an email with a temporary secret key for
 // password reset. When the user clicks the confirmation link he is redirected
 // back to your app password reset URL with the secret key and email address
@@ -325,7 +330,7 @@ func (srv *Account) UpdatePrefs(Prefs interface{})  (*models.User, error) {
 // /account/recovery](/docs/client/account#accountUpdateRecovery) endpoint to
 // complete the process. The verification link sent to the user's email
 // address is valid for 1 hour.
-func (srv *Account) CreateRecovery(Email string, Url string)  (*models.Token, error) {
+func (srv *Account) CreateRecovery(Email string, Url string) (*models.Token, error) {
 	path := "/account/recovery"
 	params := map[string]interface{}{}
 	params["email"] = Email
@@ -353,18 +358,18 @@ func (srv *Account) CreateRecovery(Email string, Url string)  (*models.Token, er
 	return &parsed, nil
 
 }
-							
+
 // UpdateRecovery use this endpoint to complete the user account password
 // reset. Both the **userId** and **secret** arguments will be passed as query
 // parameters to the redirect URL you have provided when sending your request
 // to the [POST /account/recovery](/docs/client/account#accountCreateRecovery)
 // endpoint.
-// 
+//
 // Please note that in order to avoid a [Redirect
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
-func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string, PasswordAgain string)  (*models.Token, error) {
+func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string, PasswordAgain string) (*models.Token, error) {
 	path := "/account/recovery"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
@@ -397,7 +402,7 @@ func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string
 
 // ListSessions get currently logged in user list of active sessions across
 // different devices.
-func (srv *Account) ListSessions()  (*models.SessionList, error) {
+func (srv *Account) ListSessions() (*models.SessionList, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -426,7 +431,7 @@ func (srv *Account) ListSessions()  (*models.SessionList, error) {
 
 // DeleteSessions delete all sessions from the user account and remove any
 // sessions cookies from the end client.
-func (srv *Account) DeleteSessions()  (*interface{}, error) {
+func (srv *Account) DeleteSessions() (*interface{}, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -452,10 +457,10 @@ func (srv *Account) DeleteSessions()  (*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+
 // GetSession use this endpoint to get a logged in user's session using a
 // Session ID. Inputting 'current' will return the current session being used.
-func (srv *Account) GetSession(SessionId string)  (*models.Session, error) {
+func (srv *Account) GetSession(SessionId string) (*models.Session, error) {
 	r := strings.NewReplacer("{sessionId}", SessionId)
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
@@ -483,11 +488,11 @@ func (srv *Account) GetSession(SessionId string)  (*models.Session, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdateSession access tokens have limited lifespan and expire to mitigate
 // security risks. If session was created using an OAuth provider, this route
 // can be used to "refresh" the access token.
-func (srv *Account) UpdateSession(SessionId string)  (*models.Session, error) {
+func (srv *Account) UpdateSession(SessionId string) (*models.Session, error) {
 	r := strings.NewReplacer("{sessionId}", SessionId)
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
@@ -515,12 +520,12 @@ func (srv *Account) UpdateSession(SessionId string)  (*models.Session, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteSession use this endpoint to log out the currently logged in user
 // from all their account sessions across all of their different devices. When
 // using the Session ID argument, only the unique session ID provided is
 // deleted.
-func (srv *Account) DeleteSession(SessionId string)  (*interface{}, error) {
+func (srv *Account) DeleteSession(SessionId string) (*interface{}, error) {
 	r := strings.NewReplacer("{sessionId}", SessionId)
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
@@ -552,7 +557,7 @@ func (srv *Account) DeleteSession(SessionId string)  (*interface{}, error) {
 // UpdateStatus block the currently logged in user account. Behind the scene,
 // the user record is not deleted but permanently blocked from any access. To
 // completely delete a user, use the Users API instead.
-func (srv *Account) UpdateStatus()  (*models.User, error) {
+func (srv *Account) UpdateStatus() (*models.User, error) {
 	path := "/account/status"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -578,7 +583,7 @@ func (srv *Account) UpdateStatus()  (*models.User, error) {
 	return &parsed, nil
 
 }
-	
+
 // CreateVerification use this endpoint to send a verification message to your
 // user email address to confirm they are the valid owners of that address.
 // Both the **userId** and **secret** arguments will be passed as query
@@ -588,12 +593,12 @@ func (srv *Account) UpdateStatus()  (*models.User, error) {
 // and **secret** parameters. Learn more about how to [complete the
 // verification process](/docs/client/account#accountUpdateEmailVerification).
 // The verification link sent to the user's email address is valid for 7 days.
-// 
+//
 // Please note that in order to avoid a [Redirect
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
-func (srv *Account) CreateVerification(Url string)  (*models.Token, error) {
+func (srv *Account) CreateVerification(Url string) (*models.Token, error) {
 	path := "/account/verification"
 	params := map[string]interface{}{}
 	params["url"] = Url
@@ -620,12 +625,12 @@ func (srv *Account) CreateVerification(Url string)  (*models.Token, error) {
 	return &parsed, nil
 
 }
-			
+
 // UpdateVerification use this endpoint to complete the user email
 // verification process. Use both the **userId** and **secret** parameters
 // that were attached to your app URL to verify the user email ownership. If
 // confirmed this route will return a 200 status code.
-func (srv *Account) UpdateVerification(UserId string, Secret string)  (*models.Token, error) {
+func (srv *Account) UpdateVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verification"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
@@ -661,7 +666,7 @@ func (srv *Account) UpdateVerification(UserId string, Secret string)  (*models.T
 // Learn more about how to [complete the verification
 // process](/docs/client/account#accountUpdatePhoneVerification). The
 // verification code sent to the user's phone number is valid for 15 minutes.
-func (srv *Account) CreatePhoneVerification()  (*models.Token, error) {
+func (srv *Account) CreatePhoneVerification() (*models.Token, error) {
 	path := "/account/verification/phone"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -687,12 +692,12 @@ func (srv *Account) CreatePhoneVerification()  (*models.Token, error) {
 	return &parsed, nil
 
 }
-			
+
 // UpdatePhoneVerification use this endpoint to complete the user phone
 // verification process. Use the **userId** and **secret** that were sent to
 // your user's phone number to verify the user email ownership. If confirmed
 // this route will return a 200 status code.
-func (srv *Account) UpdatePhoneVerification(UserId string, Secret string)  (*models.Token, error) {
+func (srv *Account) UpdatePhoneVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verification/phone"
 	params := map[string]interface{}{}
 	params["userId"] = UserId

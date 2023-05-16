@@ -3,9 +3,9 @@ package databases
 import (
 	"encoding/json"
 	"errors"
+	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"strings"
-	"github.com/appwrite/sdk-for-go/client"
 )
 
 // Databases service
@@ -19,20 +19,22 @@ func NewDatabases(clt client.Client) *Databases {
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func WithListQueries(v []interface{}) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -45,10 +47,10 @@ func WithListSearch(v string) ListOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-	
+
 // List get a list of all databases from the current Appwrite project. You can
 // use the search parameter to filter your results.
-func (srv *Databases) List(optionalSetters ...ListOption)  (*models.DatabaseList, error) {
+func (srv *Databases) List(optionalSetters ...ListOption) (*models.DatabaseList, error) {
 	path := "/databases"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -84,9 +86,9 @@ func (srv *Databases) List(optionalSetters ...ListOption)  (*models.DatabaseList
 	return &parsed, nil
 
 }
-			
+
 // Create create a new Database.
-func (srv *Databases) Create(DatabaseId string, Name string)  (*models.Database, error) {
+func (srv *Databases) Create(DatabaseId string, Name string) (*models.Database, error) {
 	path := "/databases"
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
@@ -114,10 +116,10 @@ func (srv *Databases) Create(DatabaseId string, Name string)  (*models.Database,
 	return &parsed, nil
 
 }
-	
+
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
-func (srv *Databases) Get(DatabaseId string)  (*models.Database, error) {
+func (srv *Databases) Get(DatabaseId string) (*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
 	params := map[string]interface{}{}
@@ -145,9 +147,9 @@ func (srv *Databases) Get(DatabaseId string)  (*models.Database, error) {
 	return &parsed, nil
 
 }
-			
+
 // Update update a database by its unique ID.
-func (srv *Databases) Update(DatabaseId string, Name string)  (*models.Database, error) {
+func (srv *Databases) Update(DatabaseId string, Name string) (*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
 	params := map[string]interface{}{}
@@ -176,10 +178,10 @@ func (srv *Databases) Update(DatabaseId string, Name string)  (*models.Database,
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
-func (srv *Databases) Delete(DatabaseId string)  (*interface{}, error) {
+func (srv *Databases) Delete(DatabaseId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
 	params := map[string]interface{}{}
@@ -209,18 +211,21 @@ func (srv *Databases) Delete(DatabaseId string)  (*interface{}, error) {
 }
 
 type ListCollectionsOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListCollectionsOptions) New() *ListCollectionsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListCollectionsOption func(*ListCollectionsOptions)
+
 func WithListCollectionsQueries(v []interface{}) ListCollectionsOption {
 	return func(o *ListCollectionsOptions) {
 		o.Queries = v
@@ -233,10 +238,10 @@ func WithListCollectionsSearch(v string) ListCollectionsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-			
+
 // ListCollections get a list of all collections that belong to the provided
 // databaseId. You can use the search parameter to filter your results.
-func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption)  (*models.CollectionList, error) {
+func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption) (*models.CollectionList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}/collections")
 	options := ListCollectionsOptions{}.New()
@@ -276,18 +281,21 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 }
 
 type CreateCollectionOptions struct {
-	Permissions []interface{}
+	Permissions      []interface{}
 	DocumentSecurity bool
-	enabledSetters map[string]bool
+	enabledSetters   map[string]bool
 }
+
 func (options CreateCollectionOptions) New() *CreateCollectionOptions {
 	options.enabledSetters = map[string]bool{
-		"Permissions": false,
+		"Permissions":      false,
 		"DocumentSecurity": false,
 	}
 	return &options
 }
+
 type CreateCollectionOption func(*CreateCollectionOptions)
+
 func WithCreateCollectionPermissions(v []interface{}) CreateCollectionOption {
 	return func(o *CreateCollectionOptions) {
 		o.Permissions = v
@@ -300,12 +308,12 @@ func WithCreateCollectionDocumentSecurity(v bool) CreateCollectionOption {
 		o.enabledSetters["DocumentSecurity"] = true
 	}
 }
-							
+
 // CreateCollection create a new Collection. Before using this route, you
 // should create a new database resource using either a [server
 // integration](/docs/server/databases#databasesCreateCollection) API or
 // directly from your database console.
-func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...CreateCollectionOption)  (*models.Collection, error) {
+func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...CreateCollectionOption) (*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}/collections")
 	options := CreateCollectionOptions{}.New()
@@ -345,10 +353,10 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 	return &parsed, nil
 
 }
-			
+
 // GetCollection get a collection by its unique ID. This endpoint response
 // returns a JSON object with the collection metadata.
-func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)  (*models.Collection, error) {
+func (srv *Databases) GetCollection(DatabaseId string, CollectionId string) (*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
@@ -379,20 +387,23 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)  (*m
 }
 
 type UpdateCollectionOptions struct {
-	Permissions []interface{}
+	Permissions      []interface{}
 	DocumentSecurity bool
-	Enabled bool
-	enabledSetters map[string]bool
+	Enabled          bool
+	enabledSetters   map[string]bool
 }
+
 func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	options.enabledSetters = map[string]bool{
-		"Permissions": false,
+		"Permissions":      false,
 		"DocumentSecurity": false,
-		"Enabled": false,
+		"Enabled":          false,
 	}
 	return &options
 }
+
 type UpdateCollectionOption func(*UpdateCollectionOptions)
+
 func WithUpdateCollectionPermissions(v []interface{}) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.Permissions = v
@@ -411,9 +422,9 @@ func WithUpdateCollectionEnabled(v bool) UpdateCollectionOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+
 // UpdateCollection update a collection by its unique ID.
-func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption)  (*models.Collection, error) {
+func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption) (*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -456,10 +467,10 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, N
 	return &parsed, nil
 
 }
-			
+
 // DeleteCollection delete a collection by its unique ID. Only users with
 // write permissions have access to delete this resource.
-func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)  (*interface{}, error) {
+func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
@@ -488,9 +499,9 @@ func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)  
 	return &parsed, nil
 
 }
-			
+
 // ListAttributes
-func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string)  (*models.AttributeList, error) {
+func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string) (*models.AttributeList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes")
 	params := map[string]interface{}{}
@@ -521,18 +532,21 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string)  (*
 }
 
 type CreateBooleanAttributeOptions struct {
-	Default bool
-	Array bool
+	Default        bool
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateBooleanAttributeOptions) New() *CreateBooleanAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateBooleanAttributeOption func(*CreateBooleanAttributeOptions)
+
 func WithCreateBooleanAttributeDefault(v bool) CreateBooleanAttributeOption {
 	return func(o *CreateBooleanAttributeOptions) {
 		o.Default = v
@@ -545,9 +559,9 @@ func WithCreateBooleanAttributeArray(v bool) CreateBooleanAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateBooleanAttribute create a boolean attribute.
-func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBooleanAttributeOption)  (*models.AttributeBoolean, error) {
+func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBooleanAttributeOption) (*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean")
 	options := CreateBooleanAttributeOptions{}.New()
@@ -588,9 +602,9 @@ func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-									
+
 // UpdateBooleanAttribute
-func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool)  (*models.AttributeBoolean, error) {
+func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool) (*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}")
 	params := map[string]interface{}{}
@@ -624,18 +638,21 @@ func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId str
 }
 
 type CreateDatetimeAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateDatetimeAttributeOptions) New() *CreateDatetimeAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateDatetimeAttributeOption func(*CreateDatetimeAttributeOptions)
+
 func WithCreateDatetimeAttributeDefault(v string) CreateDatetimeAttributeOption {
 	return func(o *CreateDatetimeAttributeOptions) {
 		o.Default = v
@@ -648,9 +665,9 @@ func WithCreateDatetimeAttributeArray(v bool) CreateDatetimeAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateDatetimeAttribute
-func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateDatetimeAttributeOption)  (*models.AttributeDatetime, error) {
+func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateDatetimeAttributeOption) (*models.AttributeDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime")
 	options := CreateDatetimeAttributeOptions{}.New()
@@ -691,9 +708,9 @@ func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId st
 	return &parsed, nil
 
 }
-									
+
 // UpdateDatetimeAttribute
-func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)  (*models.AttributeDatetime, error) {
+func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string) (*models.AttributeDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}")
 	params := map[string]interface{}{}
@@ -727,18 +744,21 @@ func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId st
 }
 
 type CreateEmailAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateEmailAttributeOptions) New() *CreateEmailAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateEmailAttributeOption func(*CreateEmailAttributeOptions)
+
 func WithCreateEmailAttributeDefault(v string) CreateEmailAttributeOption {
 	return func(o *CreateEmailAttributeOptions) {
 		o.Default = v
@@ -751,9 +771,9 @@ func WithCreateEmailAttributeArray(v bool) CreateEmailAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateEmailAttribute create an email attribute.
-func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateEmailAttributeOption)  (*models.AttributeEmail, error) {
+func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateEmailAttributeOption) (*models.AttributeEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email")
 	options := CreateEmailAttributeOptions{}.New()
@@ -794,10 +814,10 @@ func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-									
+
 // UpdateEmailAttribute update an email attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)  (*models.AttributeEmail, error) {
+func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string) (*models.AttributeEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}")
 	params := map[string]interface{}{}
@@ -831,18 +851,21 @@ func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId strin
 }
 
 type CreateEnumAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateEnumAttributeOptions) New() *CreateEnumAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateEnumAttributeOption func(*CreateEnumAttributeOptions)
+
 func WithCreateEnumAttributeDefault(v string) CreateEnumAttributeOption {
 	return func(o *CreateEnumAttributeOptions) {
 		o.Default = v
@@ -855,9 +878,9 @@ func WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-											
+
 // CreateEnumAttribute
-func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, optionalSetters ...CreateEnumAttributeOption)  (*models.AttributeEnum, error) {
+func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, optionalSetters ...CreateEnumAttributeOption) (*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum")
 	options := CreateEnumAttributeOptions{}.New()
@@ -899,10 +922,10 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 	return &parsed, nil
 
 }
-											
+
 // UpdateEnumAttribute update an enum attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, Default string)  (*models.AttributeEnum, error) {
+func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, Default string) (*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}")
 	params := map[string]interface{}{}
@@ -937,22 +960,25 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 }
 
 type CreateFloatAttributeOptions struct {
-	Min float64
-	Max float64
-	Default float64
-	Array bool
+	Min            float64
+	Max            float64
+	Default        float64
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateFloatAttributeOptions) New() *CreateFloatAttributeOptions {
 	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
+		"Min":     false,
+		"Max":     false,
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateFloatAttributeOption func(*CreateFloatAttributeOptions)
+
 func WithCreateFloatAttributeMin(v float64) CreateFloatAttributeOption {
 	return func(o *CreateFloatAttributeOptions) {
 		o.Min = v
@@ -977,10 +1003,10 @@ func WithCreateFloatAttributeArray(v bool) CreateFloatAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateFloatAttribute create a float attribute. Optionally, minimum and
 // maximum values can be provided.
-func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateFloatAttributeOption)  (*models.AttributeFloat, error) {
+func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateFloatAttributeOption) (*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float")
 	options := CreateFloatAttributeOptions{}.New()
@@ -1027,10 +1053,10 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-													
+
 // UpdateFloatAttribute update a float attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min float64, Max float64, Default float64)  (*models.AttributeFloat, error) {
+func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min float64, Max float64, Default float64) (*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}")
 	params := map[string]interface{}{}
@@ -1066,22 +1092,25 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 }
 
 type CreateIntegerAttributeOptions struct {
-	Min int
-	Max int
-	Default int
-	Array bool
+	Min            int
+	Max            int
+	Default        int
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateIntegerAttributeOptions) New() *CreateIntegerAttributeOptions {
 	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
+		"Min":     false,
+		"Max":     false,
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateIntegerAttributeOption func(*CreateIntegerAttributeOptions)
+
 func WithCreateIntegerAttributeMin(v int) CreateIntegerAttributeOption {
 	return func(o *CreateIntegerAttributeOptions) {
 		o.Min = v
@@ -1106,10 +1135,10 @@ func WithCreateIntegerAttributeArray(v bool) CreateIntegerAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateIntegerAttribute create an integer attribute. Optionally, minimum and
 // maximum values can be provided.
-func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIntegerAttributeOption)  (*models.AttributeInteger, error) {
+func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIntegerAttributeOption) (*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer")
 	options := CreateIntegerAttributeOptions{}.New()
@@ -1156,10 +1185,10 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-													
+
 // UpdateIntegerAttribute update an integer attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min int, Max int, Default int)  (*models.AttributeInteger, error) {
+func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min int, Max int, Default int) (*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}")
 	params := map[string]interface{}{}
@@ -1195,18 +1224,21 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 }
 
 type CreateIpAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateIpAttributeOptions) New() *CreateIpAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateIpAttributeOption func(*CreateIpAttributeOptions)
+
 func WithCreateIpAttributeDefault(v string) CreateIpAttributeOption {
 	return func(o *CreateIpAttributeOptions) {
 		o.Default = v
@@ -1219,9 +1251,9 @@ func WithCreateIpAttributeArray(v bool) CreateIpAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateIpAttribute create IP address attribute.
-func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIpAttributeOption)  (*models.AttributeIp, error) {
+func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIpAttributeOption) (*models.AttributeIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip")
 	options := CreateIpAttributeOptions{}.New()
@@ -1262,10 +1294,10 @@ func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, 
 	return &parsed, nil
 
 }
-									
+
 // UpdateIpAttribute update an ip attribute. Changing the `default` value will
 // not update already existing documents.
-func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)  (*models.AttributeIp, error) {
+func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string) (*models.AttributeIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}")
 	params := map[string]interface{}{}
@@ -1299,22 +1331,25 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 }
 
 type CreateRelationshipAttributeOptions struct {
-	TwoWay bool
-	Key string
-	TwoWayKey string
-	OnDelete string
+	TwoWay         bool
+	Key            string
+	TwoWayKey      string
+	OnDelete       string
 	enabledSetters map[string]bool
 }
+
 func (options CreateRelationshipAttributeOptions) New() *CreateRelationshipAttributeOptions {
 	options.enabledSetters = map[string]bool{
-		"TwoWay": false,
-		"Key": false,
+		"TwoWay":    false,
+		"Key":       false,
 		"TwoWayKey": false,
-		"OnDelete": false,
+		"OnDelete":  false,
 	}
 	return &options
 }
+
 type CreateRelationshipAttributeOption func(*CreateRelationshipAttributeOptions)
+
 func WithCreateRelationshipAttributeTwoWay(v bool) CreateRelationshipAttributeOption {
 	return func(o *CreateRelationshipAttributeOptions) {
 		o.TwoWay = v
@@ -1339,11 +1374,11 @@ func WithCreateRelationshipAttributeOnDelete(v string) CreateRelationshipAttribu
 		o.enabledSetters["OnDelete"] = true
 	}
 }
-									
+
 // CreateRelationshipAttribute create relationship attribute. [Learn more
 // about relationship
 // attributes](/docs/databases-relationships#relationship-attributes).
-func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionId string, RelatedCollectionId string, Type string, optionalSetters ...CreateRelationshipAttributeOption)  (*models.AttributeRelationship, error) {
+func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionId string, RelatedCollectionId string, Type string, optionalSetters ...CreateRelationshipAttributeOption) (*models.AttributeRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/relationship")
 	options := CreateRelationshipAttributeOptions{}.New()
@@ -1392,18 +1427,21 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 }
 
 type CreateStringAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateStringAttributeOptions) New() *CreateStringAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateStringAttributeOption func(*CreateStringAttributeOptions)
+
 func WithCreateStringAttributeDefault(v string) CreateStringAttributeOption {
 	return func(o *CreateStringAttributeOptions) {
 		o.Default = v
@@ -1416,9 +1454,9 @@ func WithCreateStringAttributeArray(v bool) CreateStringAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-											
+
 // CreateStringAttribute create a string attribute.
-func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateStringAttributeOption)  (*models.AttributeString, error) {
+func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateStringAttributeOption) (*models.AttributeString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string")
 	options := CreateStringAttributeOptions{}.New()
@@ -1460,10 +1498,10 @@ func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId stri
 	return &parsed, nil
 
 }
-									
+
 // UpdateStringAttribute update a string attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)  (*models.AttributeString, error) {
+func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string) (*models.AttributeString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}")
 	params := map[string]interface{}{}
@@ -1497,18 +1535,21 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 }
 
 type CreateUrlAttributeOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateUrlAttributeOptions) New() *CreateUrlAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
-		"Array": false,
+		"Array":   false,
 	}
 	return &options
 }
+
 type CreateUrlAttributeOption func(*CreateUrlAttributeOptions)
+
 func WithCreateUrlAttributeDefault(v string) CreateUrlAttributeOption {
 	return func(o *CreateUrlAttributeOptions) {
 		o.Default = v
@@ -1521,9 +1562,9 @@ func WithCreateUrlAttributeArray(v bool) CreateUrlAttributeOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateUrlAttribute create a URL attribute.
-func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateUrlAttributeOption)  (*models.AttributeUrl, error) {
+func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateUrlAttributeOption) (*models.AttributeUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url")
 	options := CreateUrlAttributeOptions{}.New()
@@ -1564,10 +1605,10 @@ func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string,
 	return &parsed, nil
 
 }
-									
+
 // UpdateUrlAttribute update an url attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)  (*models.AttributeUrl, error) {
+func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string) (*models.AttributeUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}")
 	params := map[string]interface{}{}
@@ -1599,9 +1640,9 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 	return &parsed, nil
 
 }
-					
+
 // GetAttribute
-func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)  (*interface{}, error) {
+func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -1631,9 +1672,9 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	return &parsed, nil
 
 }
-					
+
 // DeleteAttribute
-func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Key string)  (*interface{}, error) {
+func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -1665,27 +1706,30 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 }
 
 type UpdateRelationshipAttributeOptions struct {
-	OnDelete string
+	OnDelete       string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateRelationshipAttributeOptions) New() *UpdateRelationshipAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"OnDelete": false,
 	}
 	return &options
 }
+
 type UpdateRelationshipAttributeOption func(*UpdateRelationshipAttributeOptions)
+
 func WithUpdateRelationshipAttributeOnDelete(v string) UpdateRelationshipAttributeOption {
 	return func(o *UpdateRelationshipAttributeOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
 	}
 }
-							
+
 // UpdateRelationshipAttribute update relationship attribute. [Learn more
 // about relationship
 // attributes](/docs/databases-relationships#relationship-attributes).
-func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption)  (*models.AttributeRelationship, error) {
+func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption) (*models.AttributeRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}/relationship")
 	options := UpdateRelationshipAttributeOptions{}.New()
@@ -1724,26 +1768,29 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 }
 
 type ListDocumentsOptions struct {
-	Queries []interface{}
+	Queries        []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options ListDocumentsOptions) New() *ListDocumentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 	}
 	return &options
 }
+
 type ListDocumentsOption func(*ListDocumentsOptions)
+
 func WithListDocumentsQueries(v []interface{}) ListDocumentsOption {
 	return func(o *ListDocumentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-					
+
 // ListDocuments get a list of all the user's documents in a given collection.
 // You can use the query params to filter your results.
-func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption)  (*models.DocumentList, error) {
+func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption) (*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := ListDocumentsOptions{}.New()
@@ -1781,28 +1828,31 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 }
 
 type CreateDocumentOptions struct {
-	Permissions []interface{}
+	Permissions    []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateDocumentOptions) New() *CreateDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
 	}
 	return &options
 }
+
 type CreateDocumentOption func(*CreateDocumentOptions)
+
 func WithCreateDocumentPermissions(v []interface{}) CreateDocumentOption {
 	return func(o *CreateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-									
+
 // CreateDocument create a new Document. Before using this route, you should
 // create a new collection resource using either a [server
 // integration](/docs/server/databases#databasesCreateCollection) API or
 // directly from your database console.
-func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption)  (*models.Document, error) {
+func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption) (*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentOptions{}.New()
@@ -1842,26 +1892,29 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 }
 
 type GetDocumentOptions struct {
-	Queries []interface{}
+	Queries        []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options GetDocumentOptions) New() *GetDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 	}
 	return &options
 }
+
 type GetDocumentOption func(*GetDocumentOptions)
+
 func WithGetDocumentQueries(v []interface{}) GetDocumentOption {
 	return func(o *GetDocumentOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-							
+
 // GetDocument get a document by its unique ID. This endpoint response returns
 // a JSON object with the document data.
-func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption)  (*models.Document, error) {
+func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption) (*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := GetDocumentOptions{}.New()
@@ -1900,18 +1953,21 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 }
 
 type UpdateDocumentOptions struct {
-	Data interface{}
-	Permissions []interface{}
+	Data           interface{}
+	Permissions    []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options UpdateDocumentOptions) New() *UpdateDocumentOptions {
 	options.enabledSetters = map[string]bool{
-		"Data": false,
+		"Data":        false,
 		"Permissions": false,
 	}
 	return &options
 }
+
 type UpdateDocumentOption func(*UpdateDocumentOptions)
+
 func WithUpdateDocumentData(v interface{}) UpdateDocumentOption {
 	return func(o *UpdateDocumentOptions) {
 		o.Data = v
@@ -1924,10 +1980,10 @@ func WithUpdateDocumentPermissions(v []interface{}) UpdateDocumentOption {
 		o.enabledSetters["Permissions"] = true
 	}
 }
-							
+
 // UpdateDocument update a document by its unique ID. Using the patch method
 // you can pass only specific fields that will get updated.
-func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption)  (*models.Document, error) {
+func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption) (*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpdateDocumentOptions{}.New()
@@ -1967,9 +2023,9 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-					
+
 // DeleteDocument delete a document by its unique ID.
-func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string)  (*interface{}, error) {
+func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	params := map[string]interface{}{}
@@ -1999,9 +2055,9 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-			
+
 // ListIndexes
-func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string)  (*models.IndexList, error) {
+func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string) (*models.IndexList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
 	params := map[string]interface{}{}
@@ -2032,25 +2088,28 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string)  (*mod
 }
 
 type CreateIndexOptions struct {
-	Orders []interface{}
+	Orders         []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateIndexOptions) New() *CreateIndexOptions {
 	options.enabledSetters = map[string]bool{
 		"Orders": false,
 	}
 	return &options
 }
+
 type CreateIndexOption func(*CreateIndexOptions)
+
 func WithCreateIndexOrders(v []interface{}) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Orders = v
 		o.enabledSetters["Orders"] = true
 	}
 }
-											
+
 // CreateIndex
-func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []interface{}, optionalSetters ...CreateIndexOption)  (*models.Index, error) {
+func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []interface{}, optionalSetters ...CreateIndexOption) (*models.Index, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -2089,9 +2148,9 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 	return &parsed, nil
 
 }
-					
+
 // GetIndex
-func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key string)  (*models.Index, error) {
+func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key string) (*models.Index, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -2121,9 +2180,9 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 	return &parsed, nil
 
 }
-					
+
 // DeleteIndex
-func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key string)  (*interface{}, error) {
+func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}

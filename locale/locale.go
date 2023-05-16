@@ -3,9 +3,9 @@ package locale
 import (
 	"encoding/json"
 	"errors"
+	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"strings"
-	"github.com/appwrite/sdk-for-go/client"
 )
 
 // Locale service
@@ -19,14 +19,13 @@ func NewLocale(clt client.Client) *Locale {
 	}
 }
 
-
 // Get get the current user location based on IP. Returns an object with user
 // country code, country name, continent name, continent code, ip address and
 // suggested currency. You can use the locale header to get the data in a
 // supported language.
-// 
+//
 // ([IP Geolocation by DB-IP](https://db-ip.com))
-func (srv *Locale) Get()  (*models.Locale, error) {
+func (srv *Locale) Get() (*models.Locale, error) {
 	path := "/locale"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -55,7 +54,7 @@ func (srv *Locale) Get()  (*models.Locale, error) {
 
 // ListContinents list of all continents. You can use the locale header to get
 // the data in a supported language.
-func (srv *Locale) ListContinents()  (*models.ContinentList, error) {
+func (srv *Locale) ListContinents() (*models.ContinentList, error) {
 	path := "/locale/continents"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -84,7 +83,7 @@ func (srv *Locale) ListContinents()  (*models.ContinentList, error) {
 
 // ListCountries list of all countries. You can use the locale header to get
 // the data in a supported language.
-func (srv *Locale) ListCountries()  (*models.CountryList, error) {
+func (srv *Locale) ListCountries() (*models.CountryList, error) {
 	path := "/locale/countries"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -113,7 +112,7 @@ func (srv *Locale) ListCountries()  (*models.CountryList, error) {
 
 // ListCountriesEU list of all countries that are currently members of the EU.
 // You can use the locale header to get the data in a supported language.
-func (srv *Locale) ListCountriesEU()  (*models.CountryList, error) {
+func (srv *Locale) ListCountriesEU() (*models.CountryList, error) {
 	path := "/locale/countries/eu"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -142,7 +141,7 @@ func (srv *Locale) ListCountriesEU()  (*models.CountryList, error) {
 
 // ListCountriesPhones list of all countries phone codes. You can use the
 // locale header to get the data in a supported language.
-func (srv *Locale) ListCountriesPhones()  (*models.PhoneList, error) {
+func (srv *Locale) ListCountriesPhones() (*models.PhoneList, error) {
 	path := "/locale/countries/phones"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -172,7 +171,7 @@ func (srv *Locale) ListCountriesPhones()  (*models.PhoneList, error) {
 // ListCurrencies list of all currencies, including currency symbol, name,
 // plural, and decimal digits for all major and minor currencies. You can use
 // the locale header to get the data in a supported language.
-func (srv *Locale) ListCurrencies()  (*models.CurrencyList, error) {
+func (srv *Locale) ListCurrencies() (*models.CurrencyList, error) {
 	path := "/locale/currencies"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -201,7 +200,7 @@ func (srv *Locale) ListCurrencies()  (*models.CurrencyList, error) {
 
 // ListLanguages list of all languages classified by ISO 639-1 including
 // 2-letter code, name in English, and name in the respective language.
-func (srv *Locale) ListLanguages()  (*models.LanguageList, error) {
+func (srv *Locale) ListLanguages() (*models.LanguageList, error) {
 	path := "/locale/languages"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{

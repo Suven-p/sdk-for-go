@@ -1,9 +1,7 @@
 package models
 
-
 // AlgoPHPass Model
 type AlgoPhpass struct {
-    // Algo type.
-    Type string `json:"xtype"`
-
+	// Algo type.
+	Type string `json:"xtype"`
 }

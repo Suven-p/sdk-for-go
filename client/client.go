@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/appwrite/sdk-for-go/file"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -14,11 +15,10 @@ import (
 	"net/url"
 	"os"
 	"reflect"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
-	"runtime"
-	"github.com/appwrite/sdk-for-go/file"
 )
 
 const (
@@ -39,7 +39,7 @@ type ClientResponse struct {
 	StatusCode int
 	Header     http.Header
 	Result     interface{}
-	Type	   string
+	Type       string
 }
 
 func (ce *AppwriteError) Error() string {
@@ -67,12 +67,12 @@ type Client struct {
 // NewClient initializes a new Appwrite client with a given timeout
 func NewClient() Client {
 	headers := map[string]string{
-		"X-Appwrite-Response-Format" : "1.2.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.0.1 (%s; %s)", runtime.GOOS, runtime.GOARCH),
-		"x-sdk-name": "NAME",
-		"x-sdk-platform": "",
-		"x-sdk-language": "go",
-		"x-sdk-version": "0.0.1",
+		"X-Appwrite-Response-Format": "1.2.0",
+		"user-agent":                 fmt.Sprintf("AppwriteGoSDK/0.0.1 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"x-sdk-name":                 "NAME",
+		"x-sdk-platform":             "",
+		"x-sdk-language":             "go",
+		"x-sdk-version":              "0.0.1",
 	}
 	httpClient, err := getDefaultClient(defaultTimeout)
 	if err != nil {
@@ -385,7 +385,7 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 			StatusCode: resp.StatusCode,
 			Header:     resp.Header,
 			Result:     string(responseData),
-			Type:	   contentType,
+			Type:       contentType,
 		}, nil
 	}
 
@@ -400,7 +400,7 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 		StatusCode: resp.StatusCode,
 		Header:     resp.Header,
 		Result:     responseData,
-		Type:	   contentType,
+		Type:       contentType,
 	}, nil
 }
 
@@ -434,7 +434,6 @@ func toString(arg interface{}) string {
 		return fmt.Sprintf("%s", v)
 	}
 }
-
 
 // flatten recursively flattens params into a map[string]string and writes it to result
 func flatten(params interface{}, prefix string, result *map[string]string) error {
@@ -472,11 +471,11 @@ func flatten(params interface{}, prefix string, result *map[string]string) error
 				return err
 			}
 		}
-		default:
-			if prefix == "" {
-				return fmt.Errorf("prefix is empty for %s", params)
-			}
-			(*result)[prefix] = toString(params)
+	default:
+		if prefix == "" {
+			return fmt.Errorf("prefix is empty for %s", params)
+		}
+		(*result)[prefix] = toString(params)
 	}
 	return nil
 }

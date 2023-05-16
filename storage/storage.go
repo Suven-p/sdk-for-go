@@ -3,10 +3,10 @@ package storage
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/models"
-	"github.com/appwrite/sdk-for-go/file"
-	"strings"
 	"github.com/appwrite/sdk-for-go/client"
+	"github.com/appwrite/sdk-for-go/file"
+	"github.com/appwrite/sdk-for-go/models"
+	"strings"
 )
 
 // Storage service
@@ -20,20 +20,22 @@ func NewStorage(clt client.Client) *Storage {
 	}
 }
 
-
 type ListBucketsOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListBucketsOptions) New() *ListBucketsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListBucketsOption func(*ListBucketsOptions)
+
 func WithListBucketsQueries(v []interface{}) ListBucketsOption {
 	return func(o *ListBucketsOptions) {
 		o.Queries = v
@@ -46,10 +48,10 @@ func WithListBucketsSearch(v string) ListBucketsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-	
+
 // ListBuckets get a list of all the storage buckets. You can use the query
 // params to filter your results.
-func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)  (*models.BucketList, error) {
+func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption) (*models.BucketList, error) {
 	path := "/storage/buckets"
 	options := ListBucketsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -87,30 +89,33 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)  (*models.
 }
 
 type CreateBucketOptions struct {
-	Permissions []interface{}
-	FileSecurity bool
-	Enabled bool
-	MaximumFileSize int
+	Permissions           []interface{}
+	FileSecurity          bool
+	Enabled               bool
+	MaximumFileSize       int
 	AllowedFileExtensions []interface{}
-	Compression string
-	Encryption bool
-	Antivirus bool
-	enabledSetters map[string]bool
+	Compression           string
+	Encryption            bool
+	Antivirus             bool
+	enabledSetters        map[string]bool
 }
+
 func (options CreateBucketOptions) New() *CreateBucketOptions {
 	options.enabledSetters = map[string]bool{
-		"Permissions": false,
-		"FileSecurity": false,
-		"Enabled": false,
-		"MaximumFileSize": false,
+		"Permissions":           false,
+		"FileSecurity":          false,
+		"Enabled":               false,
+		"MaximumFileSize":       false,
 		"AllowedFileExtensions": false,
-		"Compression": false,
-		"Encryption": false,
-		"Antivirus": false,
+		"Compression":           false,
+		"Encryption":            false,
+		"Antivirus":             false,
 	}
 	return &options
 }
+
 type CreateBucketOption func(*CreateBucketOptions)
+
 func WithCreateBucketPermissions(v []interface{}) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Permissions = v
@@ -159,9 +164,9 @@ func WithCreateBucketAntivirus(v bool) CreateBucketOption {
 		o.enabledSetters["Antivirus"] = true
 	}
 }
-					
+
 // CreateBucket create a new storage bucket.
-func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters ...CreateBucketOption)  (*models.Bucket, error) {
+func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters ...CreateBucketOption) (*models.Bucket, error) {
 	path := "/storage/buckets"
 	options := CreateBucketOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -217,10 +222,10 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 	return &parsed, nil
 
 }
-	
+
 // GetBucket get a storage bucket by its unique ID. This endpoint response
 // returns a JSON object with the storage bucket metadata.
-func (srv *Storage) GetBucket(BucketId string)  (*models.Bucket, error) {
+func (srv *Storage) GetBucket(BucketId string) (*models.Bucket, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}")
 	params := map[string]interface{}{}
@@ -250,30 +255,33 @@ func (srv *Storage) GetBucket(BucketId string)  (*models.Bucket, error) {
 }
 
 type UpdateBucketOptions struct {
-	Permissions []interface{}
-	FileSecurity bool
-	Enabled bool
-	MaximumFileSize int
+	Permissions           []interface{}
+	FileSecurity          bool
+	Enabled               bool
+	MaximumFileSize       int
 	AllowedFileExtensions []interface{}
-	Compression string
-	Encryption bool
-	Antivirus bool
-	enabledSetters map[string]bool
+	Compression           string
+	Encryption            bool
+	Antivirus             bool
+	enabledSetters        map[string]bool
 }
+
 func (options UpdateBucketOptions) New() *UpdateBucketOptions {
 	options.enabledSetters = map[string]bool{
-		"Permissions": false,
-		"FileSecurity": false,
-		"Enabled": false,
-		"MaximumFileSize": false,
+		"Permissions":           false,
+		"FileSecurity":          false,
+		"Enabled":               false,
+		"MaximumFileSize":       false,
 		"AllowedFileExtensions": false,
-		"Compression": false,
-		"Encryption": false,
-		"Antivirus": false,
+		"Compression":           false,
+		"Encryption":            false,
+		"Antivirus":             false,
 	}
 	return &options
 }
+
 type UpdateBucketOption func(*UpdateBucketOptions)
+
 func WithUpdateBucketPermissions(v []interface{}) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Permissions = v
@@ -322,9 +330,9 @@ func WithUpdateBucketAntivirus(v bool) UpdateBucketOption {
 		o.enabledSetters["Antivirus"] = true
 	}
 }
-					
+
 // UpdateBucket update a storage bucket by its unique ID.
-func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters ...UpdateBucketOption)  (*models.Bucket, error) {
+func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters ...UpdateBucketOption) (*models.Bucket, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}")
 	options := UpdateBucketOptions{}.New()
@@ -381,9 +389,9 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 	return &parsed, nil
 
 }
-	
+
 // DeleteBucket delete a storage bucket by its unique ID.
-func (srv *Storage) DeleteBucket(BucketId string)  (*interface{}, error) {
+func (srv *Storage) DeleteBucket(BucketId string) (*interface{}, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}")
 	params := map[string]interface{}{}
@@ -413,18 +421,21 @@ func (srv *Storage) DeleteBucket(BucketId string)  (*interface{}, error) {
 }
 
 type ListFilesOptions struct {
-	Queries []interface{}
-	Search string
+	Queries        []interface{}
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListFilesOptions) New() *ListFilesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
+		"Search":  false,
 	}
 	return &options
 }
+
 type ListFilesOption func(*ListFilesOptions)
+
 func WithListFilesQueries(v []interface{}) ListFilesOption {
 	return func(o *ListFilesOptions) {
 		o.Queries = v
@@ -437,10 +448,10 @@ func WithListFilesSearch(v string) ListFilesOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-			
+
 // ListFiles get a list of all the user files. You can use the query params to
 // filter your results.
-func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOption)  (*models.FileList, error) {
+func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOption) (*models.FileList, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}/files")
 	options := ListFilesOptions{}.New()
@@ -480,41 +491,44 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 }
 
 type CreateFileOptions struct {
-	Permissions []interface{}
+	Permissions    []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateFileOptions) New() *CreateFileOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
 	}
 	return &options
 }
+
 type CreateFileOption func(*CreateFileOptions)
+
 func WithCreateFilePermissions(v []interface{}) CreateFileOption {
 	return func(o *CreateFileOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-							
+
 // CreateFile create a new file. Before using this route, you should create a
 // new bucket resource using either a [server
 // integration](/docs/server/storage#storageCreateBucket) API or directly from
 // your Appwrite console.
-// 
+//
 // Larger files should be uploaded using multiple requests with the
 // [content-range](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Range)
 // header to send a partial request with a maximum supported chunk of `5MB`.
 // The `content-range` header values should always be in bytes.
-// 
+//
 // When the first request is sent, the server will return the **File** object,
 // and the subsequent part request must include the file's **id** in
 // `x-appwrite-id` header to allow the server to know that the partial upload
 // is for the existing file and not for a new one.
-// 
+//
 // If you're creating a new file using one of the Appwrite SDKs, all the
 // chunking logic will be managed by the SDK internally.
-func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFile, optionalSetters ...CreateFileOption)  (*models.File, error) {
+func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFile, optionalSetters ...CreateFileOption) (*models.File, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}/files")
 	options := CreateFileOptions{}.New()
@@ -532,14 +546,13 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 		"content-type": "multipart/form-data",
 	}
 
-    paramName := "file"
+	paramName := "file"
 
+	uploadId := ""
+	uploadId = FileId
 
-    uploadId := ""
-    uploadId = FileId
-
-    resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
-    if err != nil {
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	if err != nil {
 		return nil, err
 	}
 	var parsed models.File
@@ -556,10 +569,10 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 	}
 	return &parsed, nil
 }
-			
+
 // GetFile get a file by its unique ID. This endpoint response returns a JSON
 // object with the file metadata.
-func (srv *Storage) GetFile(BucketId string, FileId string)  (*models.File, error) {
+func (srv *Storage) GetFile(BucketId string, FileId string) (*models.File, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	params := map[string]interface{}{}
@@ -590,26 +603,29 @@ func (srv *Storage) GetFile(BucketId string, FileId string)  (*models.File, erro
 }
 
 type UpdateFileOptions struct {
-	Permissions []interface{}
+	Permissions    []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options UpdateFileOptions) New() *UpdateFileOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
 	}
 	return &options
 }
+
 type UpdateFileOption func(*UpdateFileOptions)
+
 func WithUpdateFilePermissions(v []interface{}) UpdateFileOption {
 	return func(o *UpdateFileOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-					
+
 // UpdateFile update a file by its unique ID. Only users with write
 // permissions have access to update this resource.
-func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters ...UpdateFileOption)  (*models.File, error) {
+func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters ...UpdateFileOption) (*models.File, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	options := UpdateFileOptions{}.New()
@@ -645,10 +661,10 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 	return &parsed, nil
 
 }
-			
+
 // DeleteFile delete a file by its unique ID. Only users with write
 // permissions have access to delete this resource.
-func (srv *Storage) DeleteFile(BucketId string, FileId string)  (*interface{}, error) {
+func (srv *Storage) DeleteFile(BucketId string, FileId string) (*interface{}, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	params := map[string]interface{}{}
@@ -677,11 +693,11 @@ func (srv *Storage) DeleteFile(BucketId string, FileId string)  (*interface{}, e
 	return &parsed, nil
 
 }
-			
+
 // GetFileDownload get a file content by its unique ID. The endpoint response
 // return with a 'Content-Disposition: attachment' header that tells the
 // browser to start downloading the file to user downloads directory.
-func (srv *Storage) GetFileDownload(BucketId string, FileId string)  (*[]byte, error) {
+func (srv *Storage) GetFileDownload(BucketId string, FileId string) (*[]byte, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
 	params := map[string]interface{}{}
@@ -712,36 +728,39 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string)  (*[]byte, e
 }
 
 type GetFilePreviewOptions struct {
-	Width int
-	Height int
-	Gravity string
-	Quality int
-	BorderWidth int
-	BorderColor string
-	BorderRadius int
-	Opacity float64
-	Rotation int
-	Background string
-	Output string
+	Width          int
+	Height         int
+	Gravity        string
+	Quality        int
+	BorderWidth    int
+	BorderColor    string
+	BorderRadius   int
+	Opacity        float64
+	Rotation       int
+	Background     string
+	Output         string
 	enabledSetters map[string]bool
 }
+
 func (options GetFilePreviewOptions) New() *GetFilePreviewOptions {
 	options.enabledSetters = map[string]bool{
-		"Width": false,
-		"Height": false,
-		"Gravity": false,
-		"Quality": false,
-		"BorderWidth": false,
-		"BorderColor": false,
+		"Width":        false,
+		"Height":       false,
+		"Gravity":      false,
+		"Quality":      false,
+		"BorderWidth":  false,
+		"BorderColor":  false,
 		"BorderRadius": false,
-		"Opacity": false,
-		"Rotation": false,
-		"Background": false,
-		"Output": false,
+		"Opacity":      false,
+		"Rotation":     false,
+		"Background":   false,
+		"Output":       false,
 	}
 	return &options
 }
+
 type GetFilePreviewOption func(*GetFilePreviewOptions)
+
 func WithGetFilePreviewWidth(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Width = v
@@ -808,13 +827,13 @@ func WithGetFilePreviewOutput(v string) GetFilePreviewOption {
 		o.enabledSetters["Output"] = true
 	}
 }
-					
+
 // GetFilePreview get a file preview image. Currently, this method supports
 // preview for image files (jpg, png, and gif), other supported formats, like
 // pdf, docs, slides, and spreadsheets, will return the file icon image. You
 // can also pass query string arguments for cutting and resizing your preview
 // image. Preview is supported only for image files smaller than 10MB.
-func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption)  (*[]byte, error) {
+func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*[]byte, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
 	options := GetFilePreviewOptions{}.New()
@@ -880,11 +899,11 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	return &parsed, nil
 
 }
-			
+
 // GetFileView get a file content by its unique ID. This endpoint is similar
 // to the download method but returns with no  'Content-Disposition:
 // attachment' header.
-func (srv *Storage) GetFileView(BucketId string, FileId string)  (*[]byte, error) {
+func (srv *Storage) GetFileView(BucketId string, FileId string) (*[]byte, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
 	params := map[string]interface{}{}
